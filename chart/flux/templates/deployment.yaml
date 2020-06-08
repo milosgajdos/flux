@@ -186,12 +186,12 @@ spec:
               name: {{ .Values.env.secretName }}
           {{- end }}
           args:
-          {{- if not .Values.clusterRole.create }}
+          {{- if and (eq .Values.clusterRole.create false) (eq .Values.allowAllNamespaces false) }}
           - --k8s-allow-namespace={{ join "," (append .Values.allowedNamespaces .Release.Namespace) }}
-          {{- end}}
+          {{- end }}
           {{- if .Values.logFormat }}
           - --log-format={{ .Values.logFormat }}
-          {{end}}
+          {{- end }}
           - --ssh-keygen-dir=/var/fluxd/keygen
           - --ssh-keygen-format={{ .Values.ssh.keygen.format }}
           - --k8s-secret-name={{ .Values.git.secretName | default (printf "%s-git-deploy" (include "flux.fullname" .)) }}

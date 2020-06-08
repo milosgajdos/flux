@@ -19,6 +19,7 @@ service:
 
 # Specifies which namespaces flux should have access to
 allowedNamespaces: []
+allowAllNamespaces: false
 
 rbac:
   # Specifies whether RBAC resources should be created
