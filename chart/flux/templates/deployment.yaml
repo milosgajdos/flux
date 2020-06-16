@@ -117,9 +117,8 @@ spec:
             containerPort: 3030
             protocol: TCP
           livenessProbe:
-            httpGet:
-              port: 3030
-              path: /api/flux/v6/identity.pub
+            exec:
+              command: ["sh", "-c", "reply=$(wget --server-response -q localhost:3030/api/flux/v6/identity.pub 2>&1 | awk '/^  HTTP/{print $2}'); if [ $reply -lt 200 -o $reply -ge 400 ]; then exit 1; fi; nslookup bitbucket.mwam.local > /dev/null"]
             initialDelaySeconds: 5
             timeoutSeconds: 5
           readinessProbe:
